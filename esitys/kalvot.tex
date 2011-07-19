@@ -6,7 +6,8 @@
 \usepackage[finnish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{listings}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
 
 \usecolortheme{crane}
 \usetheme{default}
@@ -47,29 +48,38 @@
 \end{itemize}
 \end{frame}
 
-% \begin{frame}
-%   \includegraphics[width=1.0\columnwidth, height=220pt]{images/ioc.png}
-% \end{frame}
-
-\begin{frame}[t,fragile]{WebContextAware}
-
-Miten saat webappin reaalipolun selville?
-
-\lstset{language=Java,style=Java}
-\begin{lstlisting}
-public class Example implements ServletContextAware {
-
-@Override
-public void setServletContext(ServletContext servletContext)
-{
- String path = servletContext.getRealPath("resources/foo");
-}
-
-}
-\end{lstlisting}
+\begin{frame}{Springin historia ja tausta}
+\begin{itemize}
+\item kehitys aloitettu 2002, ensimmäinen versio julkaistiin 2004
+\item tavoitteena helpottaa J(2)EE:n kanssa toimimista ja vähentää
+  höyrykattilan levytystä
+\item mahdollisimman kajoamaton, tosin esimerkiksi annotaatiot ja
+  apuluokat esimerkiksi yksikkötesteissä ovat yleisiä
+\item POJO, rajapintojen käyttö
+\item 
+\end{itemize}
 \end{frame}
 
+\begin{frame}{Riippuvuuksien ruiskuttelusta}
+\begin{itemize}
+% http://www.adam-bien.com/roller/abien/entry/what_is_the_relation_between
+\item JSR-299, JSR-330, javax.inject
+\item setter
+\item konstruktori
 
+\end{itemize}
+\end{frame}
 
+\begin{frame}{Parhaat käytännöt}
+\begin{itemize}
+\item \url{http://springtips.blogspot.com/2007/06/twelve-best-practices-for-spring-xml.html}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{}
+\begin{itemize}
+\item 
+\end{itemize}
+\end{frame}
 
 \end{document}

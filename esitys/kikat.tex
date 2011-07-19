@@ -56,4 +56,23 @@ public void setServletContext(ServletContext servletContext)
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}[t,fragile]{WebContextAware}
+
+Miten saat webappin reaalipolun selville?
+
+\lstset{language=Java,style=Java}
+\begin{lstlisting}
+public class Example implements ServletContextAware {
+
+@Override
+public void setServletContext(ServletContext servletContext)
+{
+ String path = servletContext.getRealPath("resources/foo");
+}
+
+}
+\end{lstlisting}
+\end{frame}
+
+
 \end{document}
