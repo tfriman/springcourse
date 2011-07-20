@@ -42,8 +42,7 @@
 \begin{frame}[t, fragile]{Sisällysluettelo}
 \begin{itemize}
 \item Springin tausta
-\item Inversion of Control
-\item Dependency Injection
+\item Inversion of Control aka. Dependency Injection
 \item Springin hallinnoimat resurssit vs. new-operaattorilla luodut
 \end{itemize}
 \end{frame}
@@ -52,21 +51,57 @@
 \begin{itemize}
 \item kehitys aloitettu 2002, ensimmäinen versio julkaistiin 2004
 \item tavoitteena helpottaa J(2)EE:n kanssa toimimista ja vähentää
-  höyrykattilan levytystä
+  höyrykattilan levytystä... esimerkkeinä JNDI ja EJB remoting/transaktiot
 \item mahdollisimman kajoamaton, tosin esimerkiksi annotaatiot ja
   apuluokat esimerkiksi yksikkötesteissä ovat yleisiä
 \item POJO, rajapintojen käyttö
-\item 
+\item Ei sidottu mihinkään sovelluspalvelimeen tai sovelluskehikoihin,
+  tarkoituksena mahdollistaa parhaat käytännöt ja parhaiden
+  sovellusten käyttö
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Riippuvuuksien ruiskuttelusta}
+\begin{frame}{Riippuvuuksien puskeminen}
 \begin{itemize}
+\item \url{http://www.martinfowler.com/articles/injection.html}
 % http://www.adam-bien.com/roller/abien/entry/what_is_the_relation_between
+\item pull vs push
+% tarkoittaa sitä, että pull-mallissa new foo(), FooFactory.getFoo()
+% tai jndi:n kautta
+% push tarkoittaa sitä, että jokin olion ulkopuolelta puskee siihen
+% riippuvuudet. tuota puskemista kutsutaan dependency injectioniksi
+%
+% IoC vs DI... IoC on yleisempi käsite kuin DI? IoC tarkoittaa
+% riippuvuuksien langoittamista, näin eri sovelluskerrokset saadaan
+% yhteen
+\item etuja: löyhä kytkentä \& korkea koheesio $ \Rightarrow $ parempi
+  ymmärrettävyys, uudelleenkäytettävyys ja modulaarisuus samoin kuin testattavuus
+% loose coupling suomeksi?
 \item JSR-299, JSR-330, javax.inject
-\item setter
-\item konstruktori
+\item setter vs konstruktori
+\end{itemize}
+\end{frame}
 
+
+\begin{frame}{Spring laajennukset}
+Springissä on sisäänrakennettuna wrapperit monille tunnetuille
+teknologioille ja sovelluskehyksille, tässä listattuna niistä muutama:
+\begin{itemize}
+\item JDBC, JMS, JMX
+\item JPA; Hibernate, Toplink, JDO, iBatis
+\item Ajastus: Quartz
+\item Templatetyökalut: Freemarker, Velocity
+\item Struts, Tapestry, JSF (?)
+\item OXM; JAXB, JavaBeans, Castor 
+\item AOP: AspectJ
+\item Web Services; oma ratkaisu
+\end{itemize}
+\end{frame}
+
+\begin{frame}{IDE-tuki}
+\begin{itemize}
+\item Eclipse (Spring IDE)
+\item IntelliJ Idea
 \end{itemize}
 \end{frame}
 
