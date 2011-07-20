@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <description>This is an example Spring configuration file</description>
+
+    <bean name="exampleBeanTarget" class="com.houston.training.spring.basic.ExampleBeanImpl" scope="prototype"/>
+    <bean id="poolTargetSource" class="org.springframework.aop.target.CommonsPoolTargetSource">
+        <property name="targetBeanName" value="exampleBeanTarget"/>
+        <property name="maxSize" value="20"/>
+    </bean>
+
+    <bean id="exampleBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="targetSource" ref="poolTargetSource"/>
+    </bean>
+
+</beans>
