@@ -1,6 +1,8 @@
 package com.houston.training.spring.basic;
 
-import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.UUID;
 
 /**
@@ -10,7 +12,9 @@ import java.util.UUID;
  */
 public class ExampleBeanImpl implements ExampleBean {
 
-    UUID uuid;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleBeanImpl.class);
+    private UUID uuid;
+
     public ExampleBeanImpl() {
         // takes time to initiate.
         this.uuid = UUID.randomUUID();
@@ -18,8 +22,9 @@ public class ExampleBeanImpl implements ExampleBean {
     }
 
     public String timeConsumingTask() {
+        LOGGER.debug("started timeConsumingTask with uuid:'{}'", uuid);
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

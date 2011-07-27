@@ -11,6 +11,9 @@
         </layout>
     </appender>
     <!-- Root Logger -->
+     <logger name="com.houston" additivity="true">
+        <level value="trace"/>
+    </logger>
     <root>
         <priority value="info"/>
         <appender-ref ref="console"/>
