@@ -21,6 +21,7 @@ public class TimingAspect {
             return pjp.proceed();
         } finally {
             sw.stop();
+            // here could be better tracing format than just this summary.
             logger.info(sw.prettyPrint());
         }
     }

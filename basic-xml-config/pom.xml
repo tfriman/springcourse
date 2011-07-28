@@ -32,6 +32,7 @@
         <oscache.version>2.4</oscache.version>
         <cglib.version>2.1_3</cglib.version>
         <dbunit.version>2.4.3</dbunit.version>
+        <main.class>com.houston.training.spring.basic.MainApp</main.class>
     </properties>
 
     <dependencies>
@@ -123,19 +124,16 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl104-over-slf4j</artifactId>
             <version>${slf4j.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.13</version>
-            <scope>runtime</scope>
+            <version>1.2.16</version>
         </dependency>
 
         <dependency>
@@ -145,6 +143,42 @@
         </dependency>
 
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>run-scan</id>
+            <properties>
+                <main.class>com.houston.training.spring.basic.annotationconfig.ScanMain</main.class>
+            </properties>
+        </profile>
+        <profile>
+            <id>run-aop</id>
+            <properties>
+                <main.class>com.houston.training.spring.basic.aspect.AopMainApp</main.class>
+            </properties>
+        </profile>
+
+    </profiles>
 
 
 </project>

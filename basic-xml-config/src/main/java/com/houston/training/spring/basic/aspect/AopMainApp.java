@@ -1,6 +1,8 @@
 package com.houston.training.spring.basic.aspect;
 
 import com.houston.training.spring.basic.ExampleBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -13,8 +15,11 @@ import java.util.UUID;
  */
 public class AopMainApp implements Runnable {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AopMainApp.class);
+
     public static void main(String[] args) {
         String configLocation = "aop-context.xml";
+        LOGGER.info("using {} as appcontext.", configLocation);
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext(configLocation);
         ExampleBean bean = (ExampleBean) applicationContext.getBean("exampleBean");
         Thread[] threads = new Thread[5];
@@ -35,7 +40,7 @@ public class AopMainApp implements Runnable {
     }
 
     public void run() {
-        System.out.println(bean.timeConsumingTask() + " thread " + uuid);
+        LOGGER.info("{} thread {}", bean.timeConsumingTask(), uuid);
     }
 
 }
