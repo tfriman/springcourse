@@ -11,27 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.6.11</aspectj.version>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <spring-security.version>3.0.0.M2</spring-security.version>
-        <spring-batch.version>2.0.3.RELEASE</spring-batch.version>
-        <mockito.version>1.8.0</mockito.version>
-        <junit.version>4.6</junit.version>
-        <jstl.version>1.2</jstl.version>
-        <servlet.version>2.5</servlet.version>
-        <ejb.version>3.0</ejb.version>
-        <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
-        <hibernate.version>3.3.1.GA</hibernate.version>
-        <jpa.version>1.0</jpa.version>
-        <ognl.version>2.6.7</ognl.version>
-        <hsqldb.version>1.8.0.7</hsqldb.version>
-        <commons-dbcp.version>1.2.2</commons-dbcp.version>
-        <commons-collection.version>3.2.1</commons-collection.version>
-        <commons-beanutils.version>1.7.0</commons-beanutils.version>
-        <slf4j.version>1.5.5</slf4j.version>
-        <log4j.version>1.2.15</log4j.version>
-        <jta.version>1.1</jta.version>
-        <oscache.version>2.4</oscache.version>
-        <cglib.version>2.1_3</cglib.version>
-        <dbunit.version>2.4.3</dbunit.version>
+        <slf4j.version>1.6.0</slf4j.version>
         <main.class>com.houston.training.spring.basic.MainApp</main.class>
     </properties>
 
@@ -120,11 +100,7 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl104-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>

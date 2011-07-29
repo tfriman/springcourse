@@ -22,6 +22,8 @@ public class TimingAspect {
         } finally {
             sw.stop();
             // here could be better tracing format than just this summary.
+            // possibly Jamon?
+            // http://jamonapi.sourceforge.net/
             logger.info(sw.prettyPrint());
         }
     }

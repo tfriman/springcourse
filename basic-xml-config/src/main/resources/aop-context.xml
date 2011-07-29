@@ -42,7 +42,7 @@
         <aop:aspect ref="profilerAspect">
             <aop:around pointcut-ref="allMethods"
                         method="profile"/>
-        </aop:aspect>
+1        </aop:aspect>
         <aop:aspect ref="tracingAspect">
             <aop:around pointcut-ref="allMethods"
                         method="enter"/>
