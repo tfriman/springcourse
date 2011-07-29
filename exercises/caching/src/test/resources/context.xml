@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       ">
+    <description>This is an example Spring configuration file</description>
+
+    <bean id="jdbcOperations" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
+    </bean>
+
+    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="classpath:schema.sql"/>
+        <jdbc:script location="classpath:test-data.sql"/>
+    </jdbc:embedded-database>
+
+    <context:property-placeholder location="sql.properties"/>
+
+    <bean id="personDao" class="com.houston.jdbctemplate.PersonDaoImpl"/>
+
+    <bean id="cacheManager"
+          class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+
+    <bean id="personCache"
+          class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="com.houston.caching.METHOD_CACHE"/>
+    </bean>
+
+    <bean id="cacheAspect" class="com.houston.jdbctemplate.CacheAspect"/>
+
+    <aop:config>
+    <aop:pointcut id="getters"
+                      expression="execution(* com.houston.jdbctemplate.PersonDaoImpl.get(..))"/>
+        <aop:aspect ref="cacheAspect">
+            <aop:around pointcut-ref="getters"
+                        method="doCache"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
