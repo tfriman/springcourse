@@ -23,7 +23,7 @@ public class PersonDaoTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonDaoTest.class);
 
     @Autowired
-    PersonDao personDao;
+    private PersonDao personDao;
 
     @Autowired
     private EhCacheFactoryBean ehCacheFactoryBean;

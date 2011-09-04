@@ -33,7 +33,7 @@
         <property name="cacheName" value="com.houston.caching.METHOD_CACHE"/>
     </bean>
 
-    <bean id="cacheAspect" class="com.houston.jdbctemplate.CacheAspect"/>
+    <bean id="cacheAspect" class="com.houston.jdbctemplate.aspect.CacheAspect"/>
 
     <aop:config>
     <aop:pointcut id="getters"
@@ -42,5 +42,6 @@
             <aop:around pointcut-ref="getters"
                         method="doCache"/>
         </aop:aspect>
+
     </aop:config>
 </beans>
