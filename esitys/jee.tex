@@ -1,0 +1,125 @@
+\newcommand{\AUTHOR}{Timo Friman, Henri Meltaus}
+\newcommand{\DATE}{15.-16.9.2011}
+
+\documentclass[hyperref={pdfauthor=\AUTHOR},14pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
+
+\usecolortheme{crane}
+\usetheme{default}
+
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{myid}{rgb}{0.1,0.1,0.1}
+\lstdefinestyle{Java}{language=java,
+ basicstyle=\small,%\ttfamily,
+ numbers=left,stepnumber=1,numberstyle=\small\ttfamily,
+ numbersep=5pt,frame=tlbr,extendedchars=true,
+ commentstyle=\color{mygreen}\ttfamily,
+ %% stringstyle=\color{red}\ttfamily,
+ stringstyle=\color{magenta},
+ keywordstyle=\color{violet}\bfseries,
+ ndkeywordstyle=\color{yellow}\bfseries,
+ identifierstyle=\color{myid},
+ % sensitive=false,
+ basicstyle=\scriptsize,
+}
+
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
+\author{\AUTHOR}
+\newcommand{\TITLE}{Spring Framework JEE Support}
+\title[\TITLE]{\TITLE}
+
+\date{\DATE}
+
+\begin{document}
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}{Sisällysluettelo}
+\begin{itemize}
+\item Templatet
+\item JNDI
+\item JMX
+\item EJB?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Templatet}
+Springissä on monille perusasioille Template, joka hoitaa likaiset työt ja höyrykattilan levytykset piilossa. Niitä kannattaa käyttää, koodi selkeytyy usein jopa luettavaksi ja yksikkötestattavuus nousee.
+
+Tässä on listattuna useimmiten käytetyt templatet:
+\begin{itemize}
+\item Tietokanta
+\item Jms
+\item Mail
+\item Rest
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tietokanta}
+JdbcTemplate / JdbcOperations,  JpaTemplate, HibernateTemplate
+\begin{itemize}
+\item JdbcOperations on hyvin yksinkertainen ORM, se toimii myös käytännön raakana SQL-yhteytenä.
+\item Java5-versio on jostain syystä paketissa simple
+\item JpaTemplate helpottaa JPA:n kanssa toimimista, HibernateTemplate vastaavasti
+\end{itemize}
+\end{frame}
+
+\begin{frame}{JmsTemplate}
+\begin{itemize}
+\item MessageListener
+\end{itemize}
+\end{frame}
+
+\begin{frame}{MailTemplate}
+\begin{itemize}
+\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{JNDI}
+Namespace
+\begin{itemize}
+\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{JMX}
+Namespace
+\begin{itemize}
+\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{EJB}
+\begin{itemize}
+\item 
+\end{itemize}
+\end{frame}
+
+
+% \begin{frame}{}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+% \end{frame}
+
+
+\end{document}

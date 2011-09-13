@@ -1,0 +1,397 @@
+
+\newcommand{\AUTHOR}{Timo Friman, Henri Meltaus}
+\newcommand{\DATE}{15.-16.9.2011}
+
+\documentclass[hyperref={pdfauthor=\AUTHOR},14pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
+
+\usecolortheme{crane}
+\usetheme{default}
+
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{myid}{rgb}{0.1,0.1,0.1}
+\lstdefinestyle{Java}{language=java,
+ basicstyle=\small,%\ttfamily,
+% numbers=left,stepnumber=1,numberstyle=\small\ttfamily,
+% numbersep=5pt,frame=tlbr,extendedchars=true,
+ commentstyle=\color{mygreen}\ttfamily,
+ %% stringstyle=\color{red}\ttfamily,
+ stringstyle=\color{magenta},
+ keywordstyle=\color{violet}\bfseries,
+ ndkeywordstyle=\color{yellow}\bfseries,
+ identifierstyle=\color{myid},
+ % sensitive=false,
+ basicstyle=\scriptsize,
+}
+
+\author{\AUTHOR}
+\newcommand{\TITLE}{Spring Framework - kokoonpano}
+\title[\TITLE]{\TITLE}
+
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
+\date{\DATE}
+
+\begin{document}
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}[t, fragile]{KONFIGUROINTI}
+\begin{itemize}
+\item Kolme tapaa: XML, Annotaatiot, Java Config
+\item Eri tapoja voi yhdistellä
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{ NIMEÄMINEN}
+\begin{itemize}
+\item Yksilöivä nimi id- tai name-attribuutilla
+\item Käytetään kun halutaan viitata beaniin konfiguraatiossa
+\item Id-attribuutti
+\begin{itemize}
+\item Schema-validointi duplikaattien varalta
+\item Ei erikoismerkkejä
+\end{itemize}
+\item Name-attribuutti
+\begin{itemize}
+\item Voi käyttää erikoismerkkejä
+\item Aliaksien antaminen 
+\end{itemize}
+\item Spring generoi nimen, jos ei annettu
+\end{itemize}
+\begin{lstlisting}
+<bean id="bean1" class="com.houston.HelloBean" />
+<bean name="beanA, beanB" class="com.houston.WorldBean" />
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t, fragile]{INSTANTIOINTI}
+\begin{itemize}
+\item Oletus-konstruktorilla
+\begin{lstlisting}
+<bean class="com.houston.HelloBean" />
+\end{lstlisting}
+ \item Parametrisoidulla konstruktorilla
+\begin{lstlisting}
+<bean class="com.houston.HelloBean">
+ <constructor-arg index="0" value="42" />
+</bean>
+\end{lstlisting}
+ \item Staattisella factory-metodilla 
+\begin{lstlisting}
+<bean id="clientService" class="examples.ClientService" factory-method="createInstance" />
+\end{lstlisting}
+ \item Bean-instanssin factory-metodilla
+\begin{lstlisting}
+<bean id="serviceLocator" class="examples.DefaultServiceLocator" />
+<bean id="clientService" factory-bean="serviceLocator" factory-method="createClientServiceInstance" />
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{PROPERTYT JA RIIPPUVUUDET }
+\begin{itemize}
+ \item Propertyjen asetus setter-metodeilla
+ \item Automaattiset tyyppikonversiot
+ \item Tuettu mm. listat, mapit
+ \item Viittaukset beaneihin ref-attribuutilla
+\begin{lstlisting}
+<bean id="dog" class="com.houston.Dog" />
+<bean class="com.houston.Person">
+  <property name="age" value="4" />
+  <property name="pet" ref="dog" />
+</bean>
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{AUTOWIRING}
+\begin{itemize}
+ \item Spring injektoi riippuvuudet automaattisesti
+ \item Vähentää konfiguraation määrää
+ \item Oletuksena pois päältä
+ \item autowire-attribuutilla valitaan moodi:
+   byType, byName, constructor, no
+\begin{lstlisting}
+<bean class="com.houston.HelloBean" autowire="byType"  />
+\end{lstlisting}
+ \item autowire-candidate:lla voi estää beanin käytön autowiressä
+\begin{lstlisting}
+<bean class="com.houston.HelloBean" autowire-candidate="false"  />
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{SCOPET}
+\begin{itemize}
+ \item Singleton (oletus)
+ -- Vain yksi bean
+ \item Prototype
+ -- Uusi bean aina tarvittaessa
+ \item Request (vain web)
+ \item Session (vain web)
+ \item Global session (vain portlet)
+ \item Thread scope
+ -- Oletuksena ei käytössä
+\begin{lstlisting}
+<bean class="com.houston.HelloBean" scope="session"  />
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{RIIPPUVUUDET SCOPEJEN VÄLILLÄ}
+\begin{itemize}
+ \item Lyhytikäisempi käyttää pitkäikäisempää
+ -- request -> session -> prototype -> singleton
+ \item Mahdollista myös toisinpäin proxy-luokan avulla\\
+ -- CGLIB \\
+ -- JDK rajapinta-proxy     
+\end{itemize}
+\begin{lstlisting}
+<aop:scoped-proxy/> <!--CGLIB-->
+<aop:scoped-proxy proxy-target-class="false" /><!--JDK-->
+
+<bean id="userPreferences" class="com.foo.UserPreferences" scope="session">
+  <aop:scoped-proxy/>
+</bean>
+<bean id="userService" class="com.foo.SimpleUserService" scope="singleton">
+  <property name="userPreferences" ref="userPreferences"/>
+</bean>
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[t, fragile]{ELINKAARI}
+\begin{itemize}
+
+ \item Call-back -metodit, joita kutsutaan eri vaiheissa
+ \item Toteuttamalla rajapinta, esim.
+\begin{itemize}
+\item InitializingBean
+\item DisposableBean
+\item Lifecycle
+\end{itemize}
+ \item XML:ssä
+\begin{lstlisting}
+<bean class="examples.ExampleBeanA" init-method="init"/>
+<bean class="examples.ExampleBeanB" destroy-method="cleanup"/>
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{PERIMINEN}
+\begin{itemize}
+ \item Konfiguraation uudelleen käyttäminen:\\
+ -- abstract-attribuutti perittävään\\
+ -- parent-attributti perivään   \\
+\begin{lstlisting}
+    <bean id="inheritedTestBean" abstract="true" class="org.springframework.beans.TestBean">
+      <property name="name" value="parent"/>
+      <property name="age" value="1"/>
+    </bean>
+
+    <bean id="inheritsWithDifferentClass" class="org.springframework.beans.DerivedTestBean"
+        parent="inheritedTestBean">
+      <property name="name" value="override"/>
+    </bean>
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{KONFIGURAATION KUSTOMOINTI (onko liian advanced???)}
+\begin{itemize}
+ \item Konfiguraation kustomointi ennen beanien instantiointia
+ \item Toteuta rajapinta org.springframework.beans.factory.config.BeanFactoryPostProcessor\\
+ -- Spring tunnistaa rajapinnan toteuttavat beanit\\
+ -- Suoritusjärjestykseen voi vaikuttaa toteuttamalla Ordered-rajapinta \\
+ \item esim. Springin property-placeholdereiden korvaus xml-konfiguraatiossa 
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{BEANIEN KUSTOMOINTI (onko liian advanced???) }
+\begin{itemize}
+ \item Bean instanssien kustomointi ennen ja/tai jälkeen elinkaari-callbackien\\
+ -- Beanin instantiointi, riippuvuudet yms.
+ \item Toteuta rajapinta org.springframework.beans.factory.config.BeanPostProcessor\\
+ -- Spring tunnistaa rajapinnan toteuttavat beanit\\
+ -- Suoritusjärjestykseen voi vaikuttaa toteuttamalla Ordered-rajapinta\\
+ \item Esim. Springin AOP ja @Required-annotaatioiden tarkistus 
+ \item AOP ei mahdollista BeanPostProcessor-luokissa
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{BEANIEN KUSTOMOITU INSTANTIOINTI (onko liian advanced???) }
+\begin{itemize}
+ \item Käytä jos beanin instantiointi on monimutkainen
+ \item Toteuta rajapinta org.springframework.beans.factory.FactoryBean\\
+ -- Spring tunnistaa rajapinnan toteuttavat beanit
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{KONTEKSIN PALJASTAMINEN}
+\begin{itemize}
+\item Normaalisti beanit eivät tiedä Spring-kontekstista mitään
+ \item Toteuttamalla rajapinnan bean voi saada tietoonsa jotain kontekstista:\\
+ -- ApplicationContextAware \\
+ -- ApplicationEventPublisherAware \\
+ -- BeanNameAware \\
+ -- ResourceLoaderAware \\
+ -- ServletConfigAware \\
+ -- ServletContextAware \\
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{EXPRESSION LANGUAGE (SpEL) - API}
+\begin{itemize}
+ \item Objektigraafien manipulointiin ja kyselyihin
+ \item Unified EL:n (esim. JSP) kaltainen
+ \item Metodien kutsuminen, muuttujat, laskutoimitukset
+ \item Voi käyttää XML:ssä ja annotaatioissa
+ \item Toimii myös itsenäisenä API:na, ei vaadi muita Spring-kirjastoja  
+\begin{lstlisting}[style=Java]
+ExpressionParser parser = new SpelExpressionParser();
+Expression exp = parser.parseExpression("'Hello World'");
+String message = (String) exp.getValue();
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{EXPRESSION LANGUAGE (SpEL) - KÄYTTÖ }
+\begin{itemize}
+ \item Expression muodossa \#{ <expression string> }
+ \item Voi sisältää mm. viittauksia beaneihin, propertyihin 
+\begin{lstlisting}
+<bean id="numberGuess" class="org.spring.samples.NumberGuess">
+  <property name="randomNumber" value="#{T(java.lang.Math).random() * 100.0}"/>
+</bean>
+
+<bean id="shapeGuess" class="org.spring.samples.ShapeGuess">
+  <property name="initialShapeSeed" value="#{numberGuess.randomNumber}"/>
+</bean>
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{KONFIGUROINTI ANNOTAATIOILLA}
+\begin{itemize}
+ \item Beanien skannaus ja instantiointi classpathista XML:ssä
+\begin{lstlisting}
+<context:annotation-config />
+<context:component-scan base-package="com.houston"/>
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{ANNOTAATIOT (Bean-määritykset)}
+\begin{itemize}
+ \item Merkkaa bean-luokat stereotype-annotaatioilla:\\
+ @Component, @Repository, @Service, @Controller\\
+ -- Beanin nimen voi myös antaa\\
+ \item @Scope
+ -- Määrittää beanin scopen (esim. singleton, prototype)
+ \item @Qualifier
+ -- Beanin qualifier
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{ANNOTAATIOT (riippuvuudet)}
+\begin{itemize}
+ \item @Required
+\begin{itemize}
+ \item Pakollinen property
+ \item Setter, constructor
+\end{itemize}
+ \item @Autowired 
+\begin{itemize}
+ \item Autowire-riippuvuus
+ \item  Required-attribuutilla voi määrittää onko riippuvuus pakollinen (true oletuksena)
+ \item  Field, setter, constructor
+ \item  Myös muihin, ei-setter -tyyppisiin, metodeihin
+ \item  Suosi @Required:n sijasta
+\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{ANNOTAATIOT (riippuvuudet) }
+\begin{itemize}
+ \item @Qualifier
+\begin{itemize}
+ \item  Käytä tarkentamaan @Autowired-määritystä, jos siihen on useampi ehdokas
+ \item XML-konfiguraatiossa beanin qualifierin määrittää beanin sisään tuleva <qualifier>
+ \item  Oletuksena beanin id on myös sen qualifier, jos sitä ei ole erikseen määritetty
+\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{ANNOTAATIOT (elinkaari)}
+\begin{itemize}
+ \item @PostConstruct
+ -- Metodi, jota kutsutaan kun bean on instantioitu
+ \item @PreDestroy
+ -- Metodi, jota kutsutaan juuri ennen beanin poistoa
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{ANNOTAATIOT (muut)}
+\begin{itemize}
+\item @Value
+\begin{itemize}
+\item Esim. propertyissä määritetyt muuttujat
+\item Hyödyntää Spring EL:ää
+\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{KONFIGUROINTI OHJELMALLISESTI}
+\begin{itemize}
+ \item Java Configin luonti stand-alone -sovelluksessa\\
+ -- AnnotationConfigApplicationContext
+ \item Sama web-sovelluksessa\\
+ -- AnnotationConfigWebApplicationContext\\
+ -- Rekisteröinti web.xml:ssä\\
+ \item Konfiguraatioluokkien tuominen olemassa olevaan kontekstiin\\
+ -- Luokkien merkkaus @Configuration-annotaatiolla\\
+ -- Instantiointi <context:component-scan /> xml-elementin avulla\\
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{BEANIEN INSTANTIOINTI KONFIGURAATIOLUOKASTA}
+\begin{itemize}
+\item Yksi metodi per instantioitava bean
+\begin{itemize}
+\item Merkattu @Bean-annotaatiolla
+\item attribuutit: initMethod, destroyMethod, name
+\item Beanin @Scope-annotaatiolla
+\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{KONFIGURAATIOIDEN IMPORTTAUS}
+\begin{itemize}
+ \item @Import
+ -- Importoi konteksiin toisen java-konfiguraation
+ \item @ImportResource
+ -- Importoi kontekstiin XML-konfiguraation
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{KONFIGURAATIOTAPOJEN EROT}
+XML\\
+\scriptsize
+ -- Samasta luokasta useampi instanssi eri konfiguraatioilla\\
+ -- Muidenkin kuin omien luokkien konfigurointi\\
+ -- Voidaan ylikirjoittaa annotaatiot\\
+ -- Propertyjen asettaminen\\
+
+\large Annotaatiot\\
+\scriptsize
+ -- Sama konfiguraatio jokaiselle luokan instanssille\\
+ -- Konfiguraatio kiinteästi osana beania\\
+ -- Rajoittuneempi\\
+
+\normalsize Java Config\\
+\scriptsize
+ -- Ei rajoituksia, kaiken voi tehdä\\
+ -- Työläämpi?\\
+\end{frame}
+
+
+\end{document}

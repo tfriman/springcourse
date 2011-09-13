@@ -6,7 +6,8 @@
 \usepackage[finnish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{listings}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
 
 \usecolortheme{crane}
 \usetheme{default}
@@ -27,8 +28,21 @@
  basicstyle=\scriptsize,
 }
 
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
 \author{\AUTHOR}
-\newcommand{\TITLE}{Spring Framework \\ Kikkoja}
+\newcommand{\TITLE}{Spring Framework Remoting}
 \title[\TITLE]{\TITLE}
 
 \date{\DATE}
@@ -38,30 +52,24 @@
 \titlepage
 \end{frame}
 
-\begin{frame}[t,fragile]{MVC: WebContextAware}
-
-Miten saat webappin reaalipolun selville?
-
-\lstset{language=Java,style=Java}
-\begin{lstlisting}
-public class Example implements ServletContextAware {
-
-@Override
-public void setServletContext(ServletContext servletContext)
-{
- String path = servletContext.getRealPath("resources/foo");
-}
-
-}
-\end{lstlisting}
+\begin{frame}{Spring remoting}
+\begin{itemize}
+\item Invokers
+\begin{itemize}
+\item RMI
+\item Hessian (bin), Burlap (asc) (caucho.com)
+\item HTTP (Java serialization, Spring only)
+\item WS
+\item REST ?
+\end{itemize}
+\item Itse käyttäisin kyllä useimmiten WS:ää ja Apache CXF:ää
+\end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Tehtaita, tehtaita}
-Factory bean, spring bean factory, file autowire problem
-
-Lisää tähän fopfileconfig
-
-\end{frame}
-
+% \begin{frame}{}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+% \end{frame}
 
 \end{document}

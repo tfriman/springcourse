@@ -1,0 +1,131 @@
+\newcommand{\AUTHOR}{Timo Friman, Henri Meltaus}
+\newcommand{\DATE}{15.-16.9.2011}
+
+\documentclass[hyperref={pdfauthor=\AUTHOR},14pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
+
+\usecolortheme{crane}
+\usetheme{default}
+
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{myid}{rgb}{0.1,0.1,0.1}
+\lstdefinestyle{Java}{language=java,
+ basicstyle=\small,%\ttfamily,
+ numbers=left,stepnumber=1,numberstyle=\small\ttfamily,
+ numbersep=5pt,frame=tlbr,extendedchars=true,
+ commentstyle=\color{mygreen}\ttfamily,
+ %% stringstyle=\color{red}\ttfamily,
+ stringstyle=\color{magenta},
+ keywordstyle=\color{violet}\bfseries,
+ ndkeywordstyle=\color{yellow}\bfseries,
+ identifierstyle=\color{myid},
+ % sensitive=false,
+ basicstyle=\scriptsize,
+}
+
+\author{\AUTHOR}
+\newcommand{\TITLE}{Spring Framework AOP}
+\title[\TITLE]{\TITLE}
+
+\date{\DATE}
+
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false
+}
+
+\begin{document}
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}[t, fragile]{Mitä AOP tarkoittaa?}
+\begin{itemize}
+\item Crosscutting concern
+\item ``OO handles 85 \%, AOP 15\%"
+\item Pelkkä businesslogiikka
+\item Käyttöesimerkkejä: turvaominaisuuksien pakottaminen, auditointi, seuranta, transaktiotuki, cachetus
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{AOP'n peruskäsitteet}
+\begin{itemize}
+\item Join point
+\item Pointcut
+\item Advice
+\item Introduction, esittely
+\item Weaving
+  \begin{itemize}
+    \item Source
+    \item Compile
+    \item Loadtime
+    \item Proxy (Spring way)
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{AOP Advice}
+\begin{itemize}
+\item Kertoo mitä ja milloin
+\item Before
+\item After
+\item After-returning
+\item After-throwing
+\item Around
+\item Edellämainitut ovat käytössä Spring AOP:ssa, lisäksi on muitakin (mitä?)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{AOP Pointcut}
+\begin{itemize}
+\item Valitsin joinpointeille
+\item Spring AOP tukee vain executea
+\item AspectJ tukee muitakin; control flow... listaa tähän nuo pointcutit
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{AspectJ}
+\begin{itemize}
+\item ``oikea'' AOP-toteutus
+\item Oma syntaksi, laajentaa Javaa, heikohko IDE-tuki
+\item Oma kääntäjä
+\item Laaja, mahdollistaa aika huikeita asioita
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Spring AOP}
+\begin{itemize}
+\item Proxypohjainen (JDK tai CGLib)
+\item Pointcuteista käytössä vain metodin suoritus (execute)
+\item Spring AOP'ssa on  alijoukko AspectJ'stä, sama formaatti
+\item Mikäli Spring AOP ei riitä, voi ottaa käyttön AspectJ'n ja käyttää Springiä esimerkiksi aspektien riippuvuuksien hoitamiseen
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Spring AOP jatkuu}
+\begin{itemize}
+\item paketti org.springframework.aop
+\item paketti org.springframework.aop.interceptor tarjoaa muutaman valmiin interceptorin, joilla voi logittaa ja traceta esim.
+\item ProxyFactoryBean käytetään Springin sisäisesti paljon, sitä voi käyttää myös ulkoisesti
+\end{itemize}
+% \begin{lstlisting}
+%    <bean id="bean1" class="com.houston.HelloBean" />
+%    <bean name="beanA, beanB" class="com.houston.WorldBean"/>
+% \end{lstlisting}
+
+\end{frame}
+
+
+
+\end{document}

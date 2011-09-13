@@ -28,6 +28,19 @@
  basicstyle=\scriptsize,
 }
 
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
 \author{\AUTHOR}
 \newcommand{\TITLE}{Spring Framework}
 \title[\TITLE]{\TITLE}
@@ -78,31 +91,31 @@
   ymmärrettävyys, uudelleenkäytettävyys ja modulaarisuus samoin kuin testattavuus
 % loose coupling suomeksi?
 \item JSR-299, JSR-330, javax.inject
-\item setter vs konstruktori
+\item setter vs konstruktori vs suora injektio kenttään
 \end{itemize}
 \end{frame}
 
-
 \begin{frame}{Spring laajennukset}
-Springissä on sisäänrakennettuna wrapperit monille tunnetuille
+Springissä on wrapperit ja apuluokat monille tunnetuille
 teknologioille ja sovelluskehyksille, tässä listattuna niistä muutama:
 \begin{itemize}
 \item JDBC, JMS, JMX
 \item JPA; Hibernate, Toplink, JDO, iBatis
 \item Ajastus: Quartz
 \item Templatetyökalut: Freemarker, Velocity
-\item Struts, Tapestry, JSF (?)
+\item Struts, Tapestry
 \item OXM; JAXB, JavaBeans, Castor 
 \item AOP: AspectJ
 \item Web Services; oma ratkaisu
-\item Security: integraatio LDAPiin, Acegi(?)
+\item Security (LDAP integration)
 \end{itemize}
 \end{frame}
 
 \begin{frame}{IDE-tuki}
 \begin{itemize}
+\item XML/Java, joten tuettu valtaosin
 \item Eclipse (Spring IDE)
-\item IntelliJ Idea
+\item IntelliJ Idea, NetBeans
 \end{itemize}
 \end{frame}
 
@@ -112,11 +125,17 @@ teknologioille ja sovelluskehyksille, tässä listattuna niistä muutama:
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Konfigurointi}
+\begin{frame}{Spring remoting}
 \begin{itemize}
-\item XML-pohjainen, joko kaikki XML-tiedostoissa tai sitten osa
-  (skannaukset) XML-tiedostoissa ja annotaatioilla komponentit.
-\item Java-pohjainen
+\item Invokers
+\begin{itemize}
+\item RMI
+\item Hessian (bin), Burlap (asc) (caucho.com)
+\item HTTP (Java serialization, Spring only)
+\item WS
+\item REST ?
+\end{itemize}
+\item Itse käyttäisin kyllä useimmiten WS:ää ja Apache CXF:ää
 \end{itemize}
 \end{frame}
 
