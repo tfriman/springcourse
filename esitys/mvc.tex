@@ -1,0 +1,196 @@
+\newcommand{\AUTHOR}{Timo Friman, Henri Meltaus}
+\newcommand{\DATE}{15.-16.9.2011}
+
+\documentclass[hyperref={pdfauthor=\AUTHOR},14pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
+
+\usecolortheme{crane}
+\usetheme{default}
+
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{myid}{rgb}{0.1,0.1,0.1}
+\lstdefinestyle{Java}{language=java,
+ basicstyle=\small,%\ttfamily,
+ numbers=left,stepnumber=1,numberstyle=\small\ttfamily,
+ numbersep=5pt,frame=tlbr,extendedchars=true,
+ commentstyle=\color{mygreen}\ttfamily,
+ %% stringstyle=\color{red}\ttfamily,
+ stringstyle=\color{magenta},
+ keywordstyle=\color{violet}\bfseries,
+ ndkeywordstyle=\color{yellow}\bfseries,
+ identifierstyle=\color{myid},
+ % sensitive=false,
+ basicstyle=\scriptsize,
+}
+
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\author{\AUTHOR}
+\newcommand{\TITLE}{Spring Framework MVC}
+\title[\TITLE]{\TITLE}
+
+\date{\DATE}
+
+\begin{document}
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}[t, fragile]{Perusteet}
+\begin{itemize}
+\item DispatcherServlet delegoi sivupyynnöt controller-luokille
+\item Sivupyynnöt mäpätään controllerien metodeihin
+\item Controller renderöi näkymän tai kirjoittaa vastauksen suoraan responseen
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Konfigurointi}
+\begin{itemize}
+\item DispatcherServlet web.xml:ään
+\item Spring-konteksti oletuksena WEB-INF/[servlet name]-servlet.xml
+\item <mvc:annotationDriven> hyvä oletuskonfiguraatio
+-- Konversiot, validointi
+\item <mvc:resources> staattiset resurssit
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Controllerit}
+\begin{itemize}
+\item Tavallisia Spring-beaneja
+\item Merkattu @Controller-annotaatiolla
+\item Sivupyynnöt käsitellään @RequestMapping-annotaatiolla merkityissä metodeissa
+\item Metodin paluuarvon perusteella muodostetaan vastaus selaimelle
+\end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{Sivupyyntöjen mäppäys controllerien metodeille}
+\begin{itemize}
+\item@RequestMapping-annotaatiolla luokka- ja metodi-tasolla
+\item Useita sääntöjä:
+\begin{itemize}
+\item Url (esim "/movies/*")
+\item Request-parametrit
+\item Headerit
+\item Http-metodit (GET, POST...)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Controller-metodien argumentit}
+\begin{itemize}
+\item Request-parametrit
+\item REST-tyyliset urlin osat, esim. "/users/{userId}"
+\item Headerit
+\item Cookiet
+\item HttpServletRequest
+\item HttpServletResponse
+\item HttpSession
+\item Custom argumentit WebArgumentResolver-rajapinnan avulla
+\item Argumenttien automaattinen konvertointi
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Selaimelle palautettava vastaus}
+\begin{itemize}
+\item Controller palauttaa näkymän nimen, joka mäpätään näkymään
+-- JSP, PDF...
+\item Controller palauttaa POJOn, joka serialisoidaan
+-- JSON, XML...
+\item Controller kirjoittaa vastauksen suoraan responseen
+-- Tiedostot kuten kuvat...
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Näkymät}
+\begin{itemize}
+\item ModelAndView sisältää modelin ja näkymän nimen
+\item Useita ViewResolver-toteutuksia
+\item Model sisältää muuttujat, jotka käytössä näkymässä
+\item Käytä selaimessa esitettävien sivujen näyttämiseen
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Serialisoitavat POJOt}
+\begin{itemize}
+\item Metodin paluutyyppi merkataan @ResponseBody-annotaatiolla
+\item Serialisointi HttpMessageConverter-luokilla
+-- Selaimen pyytämän content typen mukaan
+\item Käytä Ajaxin ja WS/REST -clientien kanssa 
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Lomakkeet 1/2}
+\begin{itemize}
+\item Lomakkeen kentät backing objectiin
+\item Validointi @Valid-annotaatiolla
+\item @InitBinder-annotaatiolla merkatussa metodissa
+-- Omien konvertterit ja validaattorien rekisteröinti
+\item Springin omat jstl-tagit
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Lomakkeet 2/2}
+\begin{itemize}
+\item BindingResult sisältää validointi- ja konversiovirheet
+\item Jos virheitä
+-- Näytä lomakesivu uudestaan virheviestien kanssa
+\item Ei virheitä 
+-- Redirect seuraavaan näkymään (tuplapostauksen estäminen)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Virheiden käsittely}
+\begin{itemize}
+\item Controllerissa
+\begin{itemize}
+\item Merkitse virheet käsittelevä metodi @ExceptionHandler-annotaatiolla
+\item Käsittely poikkeuksen tyypin mukaan
+\end{itemize}
+\item Sovelluksen tasolla
+\begin{itemize}
+\item DefaultHandlerExceptionResolver 
+\item oma toteutus
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Interceptorit}
+\begin{itemize}
+\item Ennen ja jälkeen controllerin metodin sekä koko sivupyynnön lopuksi
+\item Mäppäys urlien mukaan
+\item Rekisteröinti esim. <mvc:interceptors /> elementillä
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Testaus}
+\begin{itemize}
+\item Helppo yksikkötestata, koska controllerit ovat POJOja
+\item Valmis setti mock-luokkia
+\item Integraatiotestaus
+\begin{itemize}
+\item Selenium
+\item HtmlUnit
+\item JWebUnit
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\end{document}

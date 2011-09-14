@@ -41,6 +41,9 @@ showstringspaces=false,
 resetmargins=true
 }
 
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
 \author{\AUTHOR}
 \newcommand{\TITLE}{Spring Framework}
 \title[\TITLE]{\TITLE}
@@ -125,6 +128,42 @@ teknologioille ja sovelluskehyksille, tässä listattuna niistä muutama:
 \end{itemize}
 \end{frame}
 
+
+
+\begin{frame}{Springin modulit 1/2}
+Springin ytimen lisäksi on olemassa useita aliprojekteja:
+\begin{itemize}
+\item Spring Security
+\item Spring Web Flow
+\item Spring Web Services (contract first)
+\item Spring Integration 
+\item Spring Batch
+\item Spring Social
+\item Spring Mobile (Spring Android)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Springin modulit 2/2}
+\begin{itemize}
+\item Spring Dynamic Modules (OSGi)
+\item Spring LDAP (template)
+\item Spring Rich Client (Spring to Swing)
+\item Spring.NET (Core, ADO.NET, NHibernate, ASP.NET, MSMQ)
+\item Spring-Flex 
+\item Spring Roo
+\item \href[colorlinks=true]{http://www.springsource.org/extensions/list}{Spring Extensions} (Community driven) 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Spring Security}
+\begin{itemize}
+\item Ex-Acegi
+\item Pääasiallisesti web, controller-taso
+\item myös metoditaso (AOP)
+\item JDBC, LDAP, inMemory
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Spring remoting}
 \begin{itemize}
 \item Invokers
@@ -135,14 +174,18 @@ teknologioille ja sovelluskehyksille, tässä listattuna niistä muutama:
 \item WS
 \item REST ?
 \end{itemize}
-\item Itse käyttäisin kyllä useimmiten WS:ää ja Apache CXF:ää
+\item Itse käyttäisin useimmiten SOAP-WS:ää ja Apache CXF:ää näiden
+  sijasta.
+
 \end{itemize}
 \end{frame}
 
-% \begin{frame}{}
-% \begin{itemize}
-% \item 
-% \end{itemize}
-% \end{frame}
+
+ \begin{frame}{}
+ \begin{itemize}
+ \item 
+ -- Merkitse virheet käsittelevä metodi @ExceptionHandler-annotaatiolla
+ \end{itemize}
+  \end{frame}
 
 \end{document}
