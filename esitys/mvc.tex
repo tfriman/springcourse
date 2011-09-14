@@ -58,8 +58,8 @@ resetmargins=true
 \begin{frame}[t, fragile]{Perusteet}
 \begin{itemize}
 \item DispatcherServlet delegoi sivupyynnöt controller-luokille
-\item Sivupyynnöt mäpätään controllerien metodeihin
-\item Controller renderöi näkymän tai kirjoittaa vastauksen suoraan responseen
+\item Sivupyynnöt linkitetään controllerien metodeihin
+\item Controller muodostaa näkymän tai kirjoittaa vastauksen suoraan responseen
 \end{itemize}
 \end{frame}
 
@@ -81,7 +81,7 @@ resetmargins=true
 \item Metodin paluuarvon perusteella muodostetaan vastaus selaimelle
 \end{itemize}
 \end{frame}
-\begin{frame}[t, fragile]{Sivupyyntöjen mäppäys controllerien metodeille}
+\begin{frame}[t, fragile]{Sivupyyntöjen linkitys controllerien metodeille}
 \begin{itemize}
 \item@RequestMapping-annotaatiolla luokka- ja metodi-tasolla
 \item Useita sääntöjä:
@@ -110,9 +110,9 @@ resetmargins=true
 
 \begin{frame}[t, fragile]{Selaimelle palautettava vastaus}
 \begin{itemize}
-\item Controller palauttaa näkymän nimen, joka mäpätään näkymään
+\item Controller palauttaa näkymän nimen, joka linkitetään näkymään
 -- JSP, PDF...
-\item Controller palauttaa POJOn, joka serialisoidaan
+\item Controller palauttaa POJOn, joka sarjallistetaan
 -- JSON, XML...
 \item Controller kirjoittaa vastauksen suoraan responseen
 -- Tiedostot kuten kuvat...
@@ -128,10 +128,10 @@ resetmargins=true
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t, fragile]{Serialisoitavat POJOt}
+\begin{frame}[t, fragile]{Sarjallistettavat POJOt}
 \begin{itemize}
 \item Metodin paluutyyppi merkataan @ResponseBody-annotaatiolla
-\item Serialisointi HttpMessageConverter-luokilla
+\item Sarjallistaminen HttpMessageConverter-luokilla
 -- Selaimen pyytämän content typen mukaan
 \item Käytä Ajaxin ja WS/REST -clientien kanssa 
 \end{itemize}
@@ -175,7 +175,7 @@ resetmargins=true
 \begin{frame}[t, fragile]{Interceptorit}
 \begin{itemize}
 \item Ennen ja jälkeen controllerin metodin sekä koko sivupyynnön lopuksi
-\item Mäppäys urlien mukaan
+\item Linkitys urlien mukaan
 \item Rekisteröinti esim. <mvc:interceptors /> elementillä
 \end{itemize}
 \end{frame}
