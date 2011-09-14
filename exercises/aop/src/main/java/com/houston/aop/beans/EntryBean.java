@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Simple example bean calling other bean.
  *
- * @author <a href="mailto:timo.friman@houston-inc.com">Timo Friman</a>
+ * @author Timo Friman
  */
 public class EntryBean {
 

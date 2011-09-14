@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  * Unit test.
  *
- * @author <a href="mailto:timo.friman@houston-inc.com">Timo Friman</a>
+ * @author Timo Friman
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/context.xml")

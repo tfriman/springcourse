@@ -3,7 +3,7 @@ package com.houston.jdbctemplate;
 /**
  * Specific exception for this exercise.
  *
- * @author <a href="mailto:timo.friman@houston-inc.com">Timo Friman</a>
+ * @author Timo Friman
  */
 public class PersonNotFoundException extends RuntimeException {
 

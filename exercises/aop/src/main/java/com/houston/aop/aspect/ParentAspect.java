@@ -3,7 +3,7 @@ package com.houston.aop.aspect;
 /**
  * TODO add javadoc.
  *
- * @author <a href="mailto:timo.friman@houston-inc.com">Timo Friman</a>
+ * @author Timo Friman
  */
 public class ParentAspect {
 }

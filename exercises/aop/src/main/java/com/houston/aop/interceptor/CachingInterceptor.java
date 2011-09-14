@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheFactoryBean;
 
 /**
- * Caches (stupidly), not complete.
+ * Caches (stupidly), not complete example.
  *
- * @author <a href="mailto:timo.friman@houston-inc.com">Timo Friman</a>
+ * @author Timo Friman
  */
 public class CachingInterceptor implements MethodInterceptor {
 

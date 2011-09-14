@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Very important biznes bean.
  *
- * @author <a href="mailto:timo.friman@houston-inc.com">Timo Friman</a>
+ * @author Timo Friman
  */
 public class OtherBeanImpl implements OtherBean {
 
