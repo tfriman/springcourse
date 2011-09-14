@@ -57,7 +57,7 @@ resetmargins=true
 
 \begin{frame}[t, fragile]{Transaktiot}
 \begin{itemize}
-\item Sama ohjelmointimalli riippumatta läytetäänkä global (JTA) tai local transaktioita
+\item Sama ohjelmointimalli riippumatta käytetäänkö global (JTA) tai local transaktioita
 \item Ohjelmallinen transaktionhallinta \\
 -- TransactionTemplate \\
 -- PlatformTransactionManager
@@ -77,17 +77,19 @@ TransactionStatus getTransaction(TransactionDefinition definition) throws Transa
 void commit(TransactionStatus status) throws TransactionException
 void rollback(TransactionStatus status) throws  TransactionException
 \end{lstlisting}
-\item Useita toteutuksia\\
--- JtaTransactionManager-toteutukset eri sovelluspalvelimille\\
--- DataSourceTransactionManager JDBC DataSource
+\item Useita toteutuksia
+\begin{itemize}
+\item JtaTransactionManager-toteutukset eri sovelluspalvelimille
+\item DataSourceTransactionManager JDBC DataSource
+\end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}[t, fragile]{TransactionDefinition}
 \begin{itemize}
 \item Isolation -- Miten eristetty transaktio on muista transaktioista
-\item  Propagation -- Luodaanko uusi transaktio vai käytetäänkö olemassa oleava
-\item Timeout -- Kauanko transaktio voi olla käynnissä ennen automaattista roll backia
+\item  Propagation -- Luodaanko uusi transaktio vai käytetäänkö olemassa olevaa
+\item Timeout -- Kauanko transaktio voi olla käynnissä ennen automaattista rollbackia
 \item Read-only status -- Kun tarvitaan vain luku-operaatio
 \end{itemize}
 \end{frame}
@@ -128,7 +130,7 @@ DataSourceTransactionManager">
 \item Metodeihin, joissa tarvitaan transaktionhallintaa
 \item Parametrit
 \begin{itemize}
-\item value = Käytettävä TransaktionManager
+\item value = Käytettävä TransactionManager
 \item propagation
 \item isolation
 \item readOnly
@@ -150,7 +152,7 @@ DataSourceTransactionManager">
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t, fragile]{JDBC Support 1/2}
+\begin{frame}[t, fragile]{JDBC Support}
 \begin{itemize}
 \item Huolehtii boilerplate koodista
 \begin{itemize}
@@ -162,12 +164,6 @@ DataSourceTransactionManager">
 \item Kyselyjen muodostaminen
 \item Tulosten iteroiminen
 \end{itemize}
-
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t, fragile]{JDBC Support 2/2}
-\begin{itemize}
 \item Useita luokkia
 \begin{itemize}
 \item JdbcTemplate
@@ -177,7 +173,6 @@ DataSourceTransactionManager">
 \item SimpleJdbcCall
 \end{itemize}
 \item Käyttö esim. DAO-luokkien sisällä
-
 \end{itemize}
 \end{frame}
 
