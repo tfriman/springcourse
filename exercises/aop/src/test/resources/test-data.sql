@@ -1,0 +1,2 @@
+INSERT INTO TESTTABLE (ID, NAME) VALUES(1, 'This is SP....RING!');
+INSERT INTO TESTTABLE (ID, NAME) VALUES(2, 'All work and no play.');
