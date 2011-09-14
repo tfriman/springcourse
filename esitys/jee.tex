@@ -58,6 +58,8 @@ resetmargins=true
 \item JNDI
 \item JMX
 \item EJB?
+\item Security
+\item Remoting
 \end{itemize}
 \end{frame}
 
@@ -121,6 +123,31 @@ Namespace
 % \item 
 % \end{itemize}
 % \end{frame}
+
+\begin{frame}{Spring Security}
+\begin{itemize}
+\item Ex-Acegi
+\item Pääasiallisesti web, controller-taso
+\item myös metoditaso (AOP)
+\item JDBC, LDAP, inMemory
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Spring remoting}
+\begin{itemize}
+\item Invokers
+\begin{itemize}
+\item RMI
+\item Hessian (bin), Burlap (asc) (caucho.com)
+\item HTTP (Java serialization, Spring only)
+\item WS
+\item REST ?
+\end{itemize}
+\item Itse käyttäisin useimmiten SOAP-WS:ää ja Apache CXF:ää näiden
+  sijasta.
+
+\end{itemize}
+\end{frame}
 
 
 \end{document}
