@@ -1,0 +1,132 @@
+\newcommand{\AUTHOR}{Timo Friman, Henri Meltaus}
+\newcommand{\DATE}{15.-16.9.2011}
+
+\documentclass[hyperref={pdfauthor=\AUTHOR},14pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
+
+\usecolortheme{crane}
+\usetheme{default}
+
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{myid}{rgb}{0.1,0.1,0.1}
+\lstdefinestyle{Java}{language=java,
+ basicstyle=\small,%\ttfamily,
+ numbers=left,stepnumber=1,numberstyle=\small\ttfamily,
+ numbersep=5pt,frame=tlbr,extendedchars=true,
+ commentstyle=\color{mygreen}\ttfamily,
+ %% stringstyle=\color{red}\ttfamily,
+ stringstyle=\color{magenta},
+ keywordstyle=\color{violet}\bfseries,
+ ndkeywordstyle=\color{yellow}\bfseries,
+ identifierstyle=\color{myid},
+ % sensitive=false,
+ basicstyle=\scriptsize,
+}
+
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\author{\AUTHOR}
+\newcommand{\TITLE}{Spring Framework Yksikkötestituki}
+\title[\TITLE]{\TITLE}
+
+\date{\DATE}
+
+\begin{document}
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}{Yksikkötestituki - yleiskuva}
+
+\begin{itemize}
+\item Tämä käydään noissa harjoituksissa puolihuomaamattomasti läpi, samoin näissä esityksissä
+\item Mockeja moneen lähtöön, JNDI, HTTP
+\item JUnit, TestNG
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Integraatiotestituki}
+4 eri tavoitetta...
+
+\end{frame}
+
+\begin{frame}{Integraatiotestituki, TestContext Framework}
+\begin{itemize}
+\item yksikkötesteille omat ApplicationContext't
+\item Tukee useita versioita JUnitista ja TestNG:stä, ei välitä, mikä 
+\item Transaktiotuki yksikkötesteille
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Esimerkki}
+\begin{lstlisting}[style=Java]
+package com.foo.bar;
+// imports omitted
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration // default ie. ZopTest-context.xml
+//@ContextConfiguration({"/context.xml", "/context-test.xml"
+public class ZopTest {
+ @Autowired
+  private Foo foo;
+  // details omitted
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t, fragile]{Tukiluokat}
+\begin{itemize}
+\item \href[colorlinks=true]{http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/test/util/ReflectionTestUtils.html}{ReflectionTestUtils} helpottaa private-kenttien asettamista
+\item Mockeja
+\item MVC:tä varten ModelAndViewAssert
+\item Embedded database -support
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Embedded database}
+\begin{lstlisting}[style=Java]
+public class DataAccessUnitTestTemplate {
+    private EmbeddedDatabase db;
+   @Before
+    public void setUp() {
+        // creates a HSQL in-memory db populated from default scripts classpath:schema.sql and classpath:test-data.sql
+        db = new EmbeddedDatabaseBuilder().addDefaultScripts().build();		
+    }
+   @Test
+    public void testDataAccess() {
+        JdbcTemplate template = new JdbcTemplate(db);
+        template.query(...);
+    }
+   @After
+    public void tearDown() {
+        db.shutdown();
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+%\begin{frame}[t, fragile]{}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+% \end{frame}
+
+\end{document}

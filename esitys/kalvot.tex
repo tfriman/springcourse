@@ -63,7 +63,7 @@ resetmargins=true
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Springin historia ja tausta}
+\begin{frame}{Springin historia ja tausta 1/2}
 \begin{itemize}
 \item kehitys aloitettu 2002, ensimmäinen versio julkaistiin 2004
 \item tavoitteena helpottaa J(2)EE:n kanssa toimimista ja vähentää
@@ -71,9 +71,16 @@ resetmargins=true
 \item mahdollisimman kajoamaton, tosin esimerkiksi annotaatiot ja
   apuluokat esimerkiksi yksikkötesteissä ovat yleisiä
 \item POJO, rajapintojen käyttö
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Springin historia ja tausta 2/2}
+\begin{itemize}
 \item Ei sidottu mihinkään sovelluspalvelimeen tai sovelluskehikoihin,
   tarkoituksena mahdollistaa parhaat käytännöt ja parhaiden
   sovellusten käyttö
+\item Nykyään Spring on melkoisen laaja... joten se siitä
+  yksinkertaisuudesta ja helpotuksesta?-)
 \end{itemize}
 \end{frame}
 
@@ -81,12 +88,12 @@ resetmargins=true
 \begin{itemize}
 \item \url{http://www.martinfowler.com/articles/injection.html}
 % http://www.adam-bien.com/roller/abien/entry/what_is_the_relation_between
-\item pull vs push
-% tarkoittaa sitä, että pull-mallissa new foo(), FooFactory.getFoo()
-% tai jndi:n kautta
-% push tarkoittaa sitä, että jokin olion ulkopuolelta puskee siihen
-% riippuvuudet. tuota puskemista kutsutaan dependency injectioniksi
-%
+\item pull vs push;
+\begin{itemize}
+\item Pull: FooFactory.getFoo() tai JNDI:n   tai muun lookupin kautta
+\item Push: jokin olion ulkopuolelta puskee siihen
+ riippuvuudet. Tuota puskemista kutsutaan dependency injectioniksi
+\end{itemize}
 % IoC vs DI... IoC on yleisempi käsite kuin DI? IoC tarkoittaa
 % riippuvuuksien langoittamista, näin eri sovelluskerrokset saadaan
 % yhteen
@@ -147,8 +154,6 @@ Springin ytimen lisäksi on olemassa useita aliprojekteja:
 \item \href[colorlinks=true]{http://www.springsource.org/extensions/list}{Spring Extensions} (Community driven) 
 \end{itemize}
 \end{frame}
-
-
 
 % \begin{frame}{}
 % \begin{itemize}
