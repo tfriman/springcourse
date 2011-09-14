@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheFactoryBean;
 
 /**
- * Caches (stupidly), not complete example.
+ * Caches method calls.
  *
- * @author Timo Friman
+ * @author Author
  */
 public class CachingInterceptor implements MethodInterceptor {
 
@@ -19,15 +19,7 @@ public class CachingInterceptor implements MethodInterceptor {
 
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        Ehcache cache = ehCacheFactoryBean.getObject();
-        Object[] args = invocation.getArguments();
-        Object key = args[0];
-        Element cached = cache.get(key);
-        if (cached == null) {
-            Object obj = invocation.proceed();
-            cache.put(new Element(key, obj));
-            return obj;
-        }
-        return cached.getValue();
+        // implement me!
+        return invocation.proceed();
     }
 }
