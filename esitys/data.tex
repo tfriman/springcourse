@@ -1,0 +1,224 @@
+\newcommand{\AUTHOR}{Timo Friman, Henri Meltaus}
+\newcommand{\DATE}{15.-16.9.2011}
+
+\documentclass[hyperref={pdfauthor=\AUTHOR},14pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
+
+\usecolortheme{crane}
+\usetheme{default}
+
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{myid}{rgb}{0.1,0.1,0.1}
+\lstdefinestyle{Java}{language=java,
+ basicstyle=\small,%\ttfamily,
+% numbers=left,stepnumber=1,numberstyle=\small\ttfamily,
+ numbersep=5pt,frame=tlbr,extendedchars=true,
+ commentstyle=\color{mygreen}\ttfamily,
+ %% stringstyle=\color{red}\ttfamily,
+ stringstyle=\color{magenta},
+ keywordstyle=\color{violet}\bfseries,
+ ndkeywordstyle=\color{yellow}\bfseries,
+ identifierstyle=\color{myid},
+ % sensitive=false,
+ basicstyle=\scriptsize,
+}
+
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\author{\AUTHOR}
+\newcommand{\TITLE}{Spring Framework Data Access}
+\title[\TITLE]{\TITLE}
+
+\date{\DATE}
+
+\begin{document}
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}[t, fragile]{Transaktiot}
+\begin{itemize}
+\item Sama ohjelmointimalli riippumatta läytetäänkä global (JTA) tai local transaktioita
+\item Ohjelmallinen transaktionhallinta \\
+-- TransactionTemplate \\
+-- PlatformTransactionManager
+\item Deklaratiivinen transaktionhallinta\\
+-- Perustuu AOP:hen\\
+-- Konfigurointi XML:ssä tai annotaatioilla
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{PlatformTransactionManager}
+\begin{itemize}
+\item Springin transaktiohallinnan perusta 
+
+\lstset{language=Java,style=Java}
+\begin{lstlisting}
+TransactionStatus getTransaction(TransactionDefinition definition) throws TransactionException
+void commit(TransactionStatus status) throws TransactionException
+void rollback(TransactionStatus status) throws  TransactionException
+\end{lstlisting}
+\item Useita toteutuksia\\
+-- JtaTransactionManager-toteutukset eri sovelluspalvelimille\\
+-- DataSourceTransactionManager JDBC DataSource
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{TransactionDefinition}
+\begin{itemize}
+\item Isolation -- Miten eristetty transaktio on muista transaktioista
+\item  Propagation -- Luodaanko uusi transaktio vai käytetäänkö olemassa oleava
+\item Timeout -- Kauanko transaktio voi olla käynnissä ennen automaattista roll backia
+\item Read-only status -- Kun tarvitaan vain luku-operaatio
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{TransactionStatus}
+\lstset{language=Java,style=Java}
+\begin{lstlisting}    
+    boolean isNewTransaction()
+    boolean hasSavepoint()
+    void setRollbackOnly()
+    boolean isRollbackOnly()
+    void flush()
+    boolean isCompleted()
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[t, fragile]{Esimerkkikonfiguraatio}
+
+\begin{lstlisting}
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+  <property name="driverClassName" value="${jdbc.driverClassName}" />
+  <property name="url" value="${jdbc.url}" />
+  <property name="username" value="${jdbc.username}" />
+  <property name="password" value="${jdbc.password}" />
+</bean>
+
+<bean id="txManager" class="org.springframework.jdbc.datasource.
+DataSourceTransactionManager">
+ <property name="dataSource" ref="dataSource"/>
+</bean>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t, fragile]{@Transactional}
+\begin{itemize}
+\item Käyttöönotto XML:ssä <tx:annotation-driven transaction-manager="txManager"/>
+\item Metodeihin, joissa tarvitaan transaktionhallintaa
+\item Parametrit
+\begin{itemize}
+\item value = Käytettävä TransaktionManager
+\item propagation
+\item isolation
+\item readOnly
+\item timeout
+\item rollbackFor, rollbackForClassname = Poikkeukset joiden on aiheutettava rollback
+\item noRollbackFor, noRollbackForClassname =  Poikkeukset jotka eivät saa aiheutettaa rollbackia
+
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{DAO support}
+\begin{itemize}
+\item Yhtenäinen tapa toteuttaa teknologiariippumattomia DAOja
+-- JDBC, Hibernate, JDO, JPA
+\item Alkuperäiset poikkeukset wrapataan Springin omiin DataAccessException-poikkeuksiin
+\item @Repository-annotaation käyttö DAO-luokissa
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{JDBC Support 1/2}
+\begin{itemize}
+\item Huolehtii boilerplate koodista
+\begin{itemize}
+\item Tietokantayhteyksien avaaminen ja sulkeminen
+\item Statementien luominen ja suorittaminen
+\end{itemize}
+\item API:n käyttäjälle jää 
+\begin{itemize}
+\item Kyselyjen muodostaminen
+\item Tulosten iteroiminen
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{JDBC Support 2/2}
+\begin{itemize}
+\item Useita luokkia
+\begin{itemize}
+\item JdbcTemplate
+\item NamedParameterJdbcTemplate
+\item SimpleJdbcTemplate
+\item SimpleJdbcInsert
+\item SimpleJdbcCall
+\end{itemize}
+\item Käyttö esim. DAO-luokkien sisällä
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Template-luokat}
+\begin{itemize}
+\item JdbcTemplate
+\begin{itemize}
+\item Kaikki operaatiot: select, insert, update, delete, batch...
+\item Muut template-luokat käyttävät tätä taustalla
+\end{itemize}
+\item NamedParameterJdbcTemplate
+\begin{itemize}
+\item Tuki nimetyille parametreille SQL-kyselyissä
+\item Esim. select name from person where id = :personId
+\end{itemize}
+\item SimpleJdbcTemplate
+\begin{itemize}
+\item Yksinkertaisempi API
+\item Yleisimmät JdbcTemplaten ja NamedParameterJdbcTemplate operaatiot
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Muut luokat}
+\begin{itemize}
+\item SimpleJdbcInsert ja SimpleJdbcCall
+\begin{itemize}
+\item Hyödyntävät tietokannasta saatavaa meta-tietoa
+\item Vähemmän konfiguroitavaa
+\end{itemize}
+\item SqlQuery, MappingSqlQuery, SqlUpdate, StoredProcedure
+\begin{itemize}
+\item Mallintavat sql-operaatiot olioiksi 
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+% \begin{frame}{}
+% \begin{itemize}
+% \item
+% \end{itemize}
+% \end{frame}
+
+\end{document}
