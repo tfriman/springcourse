@@ -1,4 +1,0 @@
-CREATE TABLE TESTTABLE (
-    id INT,
-    name VARCHAR(255)
-);
