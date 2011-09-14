@@ -1,0 +1,142 @@
+\newcommand{\AUTHOR}{Timo Friman, Henri Meltaus}
+\newcommand{\DATE}{15.-16.9.2011}
+
+\documentclass[hyperref={pdfauthor=\AUTHOR},14pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}\usepackage{listings}
+\usepackage[hyphens]{url}
+
+\usecolortheme{crane}
+\usetheme{default}
+
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{myid}{rgb}{0.1,0.1,0.1}
+\lstdefinestyle{Java}{language=java,
+ basicstyle=\small,%\ttfamily,
+% numbers=left,stepnumber=1,numberstyle=\small\ttfamily,
+ numbersep=5pt,frame=tlbr,extendedchars=true,
+ commentstyle=\color{mygreen}\ttfamily,
+ %% stringstyle=\color{red}\ttfamily,
+ stringstyle=\color{magenta},
+ keywordstyle=\color{violet}\bfseries,
+ ndkeywordstyle=\color{yellow}\bfseries,
+ identifierstyle=\color{myid},
+ % sensitive=false,
+ basicstyle=\scriptsize,
+}
+
+\lstset{ % set listing language
+language=XML,
+breaklines=true,
+breakautoindent=false,
+breakatwhitespace=true,
+frame=single,
+%basicstyle=\tiny,
+basicstyle=\scriptsize,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,
+resetmargins=true
+}
+
+\author{\AUTHOR}
+\newcommand{\TITLE}{Spring Framework: Tyyppimuunnokset}
+\title[\TITLE]{\TITLE}
+
+\date{\DATE}
+
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\begin{document}
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}[t,fragile]{JavaBeans}
+\begin{itemize}
+\item Vanha standardi, mutta saattaa silti yllättää housut kintuissa
+
+\begin{lstlisting}[style=Java]
+public void setFoo(Bar bar);
+public void setFoo(InputStream is);
+public Bar getFoo();
+\end{lstlisting}
+
+\item Spring toimii JavaBeans-standardin pohjalta:
+
+\item Springin XML-konfiguraatiossa kaikki Stringeinä $\rightarrow$
+  Tyyppimuunnos tarvitaan, mahdollisesti myös tieto, mitä tyyppiä kohdeobjekti on
+\end{itemize}
+\end{frame}
+
+\begin{frame}{PropertyEditorit 1/2}
+\begin{itemize}
+\item \href[colorlinks=true]{http://download.oracle.com/javase/6/docs/api/java/beans/PropertyEditor.html?is-external=true}{java.beans.PropertyEditor} huolehtii Objectin esittämisestä
+  Stringinä. Esimerkkinä Date, jonka toString() ei ole välttämättä se,
+  jota halutaan sovelluksessa näyttää.
+\item Spring käyttää sisäisesti PropertyEditoreja asettaessaan
+  beaneihin arvoja ja samoin MVC käyttää sitä HTTP-pyyntöjen
+  parametrien kanssa.
+\item Springissä on automaattisesti tietyt perusmuunnokset käytössä: 
+\href[colorlinks=true]{http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/beans/propertyeditors/package-summary.html}{org.springframework.beans.propertyeditors}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{PropertyEditorit 2/2}
+\begin{itemize}
+\item com.bar.Foo & com.bar.FooEditor $\rightarrow$ automaattinen rekisteröinti
+  JavaBeans-infran kautta
+\item Tarvittaessa omia PropertyEditoreita voi rekisteröidä vaikkapa
+  CustomEditorConfigurerilla tai PropertyEditorRegistrarilla
+\item Erilaiset ApplicationContextit rekisteröivät erilaisia omia
+  PropertyEditoreita automaattisesti hoitaakseen resurssien etsimisen
+  ja lataamisen
+\end{itemize}
+\end{frame}
+
+\begin{frame}{ConversionService}
+\begin{itemize}
+\item \href[colorlinks=true]{http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/core/convert/ConversionService.html}{core.convert.ConversionService}
+\item vaihtoehto PropertyEditoreille, tuli uutena versiossa 3.0
+\item Vahvasti tyypitetty Genericseillä
+\item Converter SPI (Service Provider Interface, tuttu JDBC:stä)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Formatter SPI}
+\begin{itemize}
+
+\item Tämäkin on uutuus Spring 3:ssa
+\item Tarkoitettu lähinnä asiakaspuolen formatointiin, kun taas
+  Converter on yleismukautin $\rightarrow$ käytetään esim. MVC:ssä
+\item
+  \href[colorlinks=true]{http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/format/package-summary.html}{org.springframework.format},
+  alipaketit sisältävät valmiita Formattereita, esim. joda.
+\item tarjoaa mahdollisuuden antaa formatterpatternit annotaatioina
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Esimerkki konfiguraatiosta}
+MVC-konfiguraatio
+
+\begin{lstlisting}
+<mvc:annotation-driven conversion-service="conversionService"/>
+<bean id="conversionService"
+class="org.springframework.format.support.
+FormattingConversionServiceFactoryBean"/>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Validoinnista pari sanaa...}
+\begin{itemize}
+\item Spring 3 tukee JSR-303 Bean Validation APIa kokonaan,
+  javax.validation, Hibernate validator on RI.
+\item Annotaatiopohjainen validointi
+\item MVC:ssä käytössä
+\end{itemize}
+\end{frame}
+
+\end{document}
