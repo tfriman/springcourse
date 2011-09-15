@@ -14,9 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Unit test for Person dao, you should implement the person dao implementation.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/context.xml")
 public class CachingTest {
