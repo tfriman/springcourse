@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
        ">
     <description>This is an example Spring configuration file</description>
+     <context:component-scan base-package="com.houston"/>
+
+    <bean id="otherBean" class="com.houston.aop.beans.OtherBeanImpl"/>
+    <bean id="entryBean" class="com.houston.aop.beans.EntryBean">
+        <constructor-arg ref="proxyOtherBean"/>
+    </bean>
 
 
-    <bean id="performer" class="com.houston.aop.domain.Vocalist"/>
-    <bean id="contestantDelegate" class="com.houston.aop.domain.Winner"/>
-    <!--
-    <bean id="cacheAspect" class="com.houston.jdbctemplate.aspect.CacheAspect"/>
+    <bean id="simpleTraceInterceptor" class="org.springframework.aop.interceptor.SimpleTraceInterceptor">
+        <property name="useDynamicLogger" value="true"/>
+    </bean>
 
-    <aop:config>
-    <aop:pointcut id="getters"
-                      expression="execution(* com.houston.jdbctemplate.PersonDaoImpl.get(..))"/>
-        <aop:aspect ref="cacheAspect">
-            <aop:around pointcut-ref="getters"
-                        method="doCache"/>
-        </aop:aspect>
+    <bean id="debugInterceptor" class="org.springframework.aop.interceptor.DebugInterceptor">
+        <property name="useDynamicLogger" value="true"/>
+    </bean>
 
-    </aop:config>
-    -->
-    <aop:config>
-        <aop:aspect>
-            <aop:declare-parents
-            types-matching="com.houston.aop.Performer+"
-            implement-interface="com.houston.aop.domain.Contestant"
-            delegate-ref="contestantDelegate"/>
-        </aop:aspect>
-    </aop:config>
+    <bean id="performanceMonitorInterceptor" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor">
+        <property name="useDynamicLogger" value="true"/>
+    </bean>
+
+    <bean id="cacheInterceptor" class="com.houston.aop.interceptor.CachingInterceptor"/>
+
+    <bean id="cacheManager"
+          class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+
+    <bean id="methodCacheBean"
+          class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="com.houston.caching.METHOD_CACHE"/>
+    </bean>
 
 
-    <!--
-        <aop:aspect ref="ken">
-            <aop:pointcut id="performance"
-                    expression="execution(* chapter4.Performer.perform(..))" />
-            <aop:after pointcut-ref="performance" method="receiveAward"/>
-    </aop:aspect>
-    -->
+    <bean id="proxyOtherBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <ref local="otherBean"/>
+        </property>
+        <property name="interceptorNames"
+                  value="simpleTraceInterceptor,debugInterceptor,performanceMonitorInterceptor,cacheInterceptor"/>
+    </bean>
+
+
 </beans>

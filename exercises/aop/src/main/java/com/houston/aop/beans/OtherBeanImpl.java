@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Very important biznes bean.
+ * Very important biznez bean.
  *
  * @author Timo Friman
  */
