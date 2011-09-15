@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Implement methods with TODO.
+ * Register this bean using xml in movie-servlet.xml.
+ */
 public class RestClient {
 
 	private RestTemplate restTemplate;

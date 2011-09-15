@@ -17,8 +17,8 @@
 	TODO: Configure
 	- View resolver for JSPs
 	- Enable annotation config for mvc and context
-    - Register required beans from com.houston.mvc
-    - Register rest template with json message converter
+        - Register required beans from com.houston.mvc
+        - Register rest template with json message converter (org.springframework.http.converter.json.MappingJacksonHttpMessageConverter) 
 	-->
 
 

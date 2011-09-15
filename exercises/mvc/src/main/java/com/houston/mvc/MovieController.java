@@ -8,6 +8,8 @@ import org.springframework.validation.BindingResult;
 /**
  * FOLLOW INSTRUCTIONS IN EACH METHOD, EVERYTHING CAN BE DONE USING ONLY ANNOTATIONS
  */
+
+// TODO: Annotate as controller
 public class MovieController {
 
 	// TODO: Inject dependency
