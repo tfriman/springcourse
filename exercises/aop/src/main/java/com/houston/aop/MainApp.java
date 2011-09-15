@@ -14,7 +14,7 @@ public class MainApp {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("context.xml");
         EntryBean entryBean = (EntryBean) applicationContext.getBean("entryBean");
         for (int i = 0; i < 10; i++) {
-            entryBean.entryMethod();
+            entryBean.entryMethod("abc");
         }
     }
 }

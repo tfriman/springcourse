@@ -2,8 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
        ">
     <description>This is an example Spring configuration file</description>
     <context:component-scan base-package="com.houston"/>
@@ -12,7 +14,6 @@
     <bean id="entryBean" class="com.houston.aop.beans.EntryBean">
         <constructor-arg ref="proxyOtherBean"/>
     </bean>
-
 
     <bean id="simpleTraceInterceptor" class="org.springframework.aop.interceptor.SimpleTraceInterceptor">
         <property name="useDynamicLogger" value="true"/>
@@ -42,8 +43,11 @@
         <property name="target">
             <ref local="otherBean"/>
         </property>
-        <property name="interceptorNames" value="cacheInterceptor"/>
+        <property name="interceptorNames"
+                  value="cacheInterceptor,simpleTraceInterceptor,performanceMonitorInterceptor"/>
     </bean>
 
+    <context:component-scan base-package="com.houston.jdbctemplate"/>
+    <aop:aspectj-autoproxy/>
 
 </beans>

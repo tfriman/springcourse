@@ -17,9 +17,20 @@ public class CachingInterceptor implements MethodInterceptor {
     @Autowired
     private EhCacheFactoryBean ehCacheFactoryBean;
 
-
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        // implement me!
-        return invocation.proceed();
+        Ehcache cache = ehCacheFactoryBean.getObject();
+        Object[] args = invocation.getArguments();
+        Object key = args[0];
+        Element cached = cache.get(key);
+        if (cached == null) {
+            Object obj = invocation.proceed();
+            cache.put(new Element(key, obj));
+            return obj;
+        }
+        return cached.getValue();
+    }
+
+    private String generateCacheKey(Object... args){
+        return "";
     }
 }

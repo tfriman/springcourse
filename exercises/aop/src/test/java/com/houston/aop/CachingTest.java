@@ -1,6 +1,8 @@
 package com.houston.aop;
 
+import com.houston.aop.aspects.Counter;
 import com.houston.aop.beans.EntryBean;
+import com.houston.aop.beans.OtherBean;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Statistics;
 import org.junit.Test;
@@ -23,20 +25,24 @@ public class CachingTest {
     private EntryBean entryBean;
 
     @Autowired
+    private OtherBean otherBean;
+
+    @Autowired
     private EhCacheFactoryBean ehCacheFactoryBean;
 
     @Test
     public void loopAndCheckCacheHits() {
-        int hitLimit = 10;
+        int hitLimit = 9;
         for (int i = 0; i < hitLimit; i++) {
-            entryBean.entryMethod();
+            entryBean.entryMethod("" + (i%3));
         }
         Ehcache cache = ehCacheFactoryBean.getObject();
         Statistics statistics = cache.getStatistics();
         long hits = statistics.getCacheHits();
-        assertEquals("there should be cache hits.", (hitLimit - 1), hits);
+        assertEquals("Hit counts should match", 3L, ((Counter)otherBean).getCount());
+        assertEquals("there should be cache hits.", (hitLimit - 3), hits);
         long misses = statistics.getCacheMisses();
-        assertEquals("there should be two cache miss", 1, misses);
+        assertEquals("there should be two cache miss", 3, misses);
     }
 
 }

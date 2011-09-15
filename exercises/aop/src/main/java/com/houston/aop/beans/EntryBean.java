@@ -15,13 +15,13 @@ public class EntryBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(EntryBean.class);
 
     private OtherBean otherBean;
-    private String param = new Date().toString();
+    //private String param = new Date().toString();
 
     public EntryBean(OtherBean otherBean) {
         this.otherBean = otherBean;
     }
 
-    public void entryMethod() {
+    public void entryMethod(String param) {
         LOGGER.info("calling doStuff with param:'{}'", param);
         otherBean.doStuff(param);
     }
