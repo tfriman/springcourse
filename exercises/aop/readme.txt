@@ -1,4 +1,3 @@
-Fix com.houston.aop.interceptor.CachingInterceptor and make com.houston.aop.CachingTest
-pass.
+GOAL: "mvn test" should pass.
 
-"mvn test" should pass.
+Fix only com.houston.aop.interceptor.CachingInterceptor and make com.houston.aop.CachingTest pass.

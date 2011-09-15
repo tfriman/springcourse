@@ -12,7 +12,7 @@
     </appender>
 
     <!-- Root Logger -->
-     <logger name="com.houston" additivity="true">
+    <logger name="com.houston" additivity="true">
         <level value="trace"/>
     </logger>
 

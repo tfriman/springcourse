@@ -6,7 +6,7 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
        ">
     <description>This is an example Spring configuration file</description>
-     <context:component-scan base-package="com.houston"/>
+    <context:component-scan base-package="com.houston"/>
 
     <bean id="otherBean" class="com.houston.aop.beans.OtherBeanImpl"/>
     <bean id="entryBean" class="com.houston.aop.beans.EntryBean">
@@ -42,8 +42,7 @@
         <property name="target">
             <ref local="otherBean"/>
         </property>
-        <property name="interceptorNames"
-                  value="simpleTraceInterceptor,debugInterceptor,performanceMonitorInterceptor,cacheInterceptor"/>
+        <property name="interceptorNames" value="cacheInterceptor"/>
     </bean>
 
 

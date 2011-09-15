@@ -1,11 +1,11 @@
 <ehcache>
     <diskStore path="java.io.tmpdir"/>
     <cache name="com.houston.caching.METHOD_CACHE"
-        maxElementsInMemory="300"
-        eternal="false"
-        timeToIdleSeconds="500"
-        timeToLiveSeconds="500"
-        overflowToDisk="false"
-        statistics="true"
-        />
+           maxElementsInMemory="300"
+           eternal="false"
+           timeToIdleSeconds="500"
+           timeToLiveSeconds="500"
+           overflowToDisk="false"
+           statistics="true"
+            />
 </ehcache>
