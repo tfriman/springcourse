@@ -29,11 +29,13 @@ public class RestClient {
 		return baseUrl + relativePath;
 	}
 	
+        // TODO: Get movie from MovieController's url app/movie/show/{movieId}
 	public Movie getMovie(Long movieId) {
 		// TODO: IMPLEMENT THIS WITH REST TEMPLATE
 		return null;
 	}
-
+        
+        // TODO: Get list of mavies from MovieController's url app/movies/list
 	public List<Movie> listMovies() {
 		// TODO: IMPLEMENT THIS WITH REST TEMPLATE
 		return null;
