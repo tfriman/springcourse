@@ -73,8 +73,12 @@ vaan asiat voisi langoittaa itsekin XML:ssä.
 \item aop
 \item util
 \item jms
-\item omat laajennokset, META-INF/spring.handler, spring.schema\\
-überjar-pakkausongelmat, Maven shade-plugin etc.
+\item omat laajennokset
+\begin{itemize}
+\item  META-INF/spring.handler, spring.schema. 
+\item überjar-pakkausongelmat, Maven shade-plugin etc.
+\item Apache Mina FTP Server esimerkkinä laajennoksesta
+\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -162,7 +166,7 @@ Tässä on listattuna useimmiten käytetyt templatet:
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Spring Security}
+\begin{frame}{Security}
 \begin{itemize}
 \item Ex-Acegi
 \item Pääasiallisesti web, controller-taso
@@ -171,7 +175,7 @@ Tässä on listattuna useimmiten käytetyt templatet:
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Spring remoting}
+\begin{frame}{Remoting}
 \begin{itemize}
 \item Invokers
 \begin{itemize}
@@ -184,5 +188,16 @@ Tässä on listattuna useimmiten käytetyt templatet:
   sijasta.
 \end{itemize}
 \end{frame}
+
+\begin{frame}{Ajastus}
+\begin{itemize}
+\item Mahdollistaa tehtävien ajastamisen springin kontekstista tai
+  annotaatioilla
+\item TaskExecutor ja TaskScheduler -rajapinnat abstrahoivat Java 5,
+  6, EE:n erot pois
+\item Tuki sekä Quartz'lle että JDK:n Timerille
+\end{itemize}
+\end{frame}
+
 
 \end{document}
