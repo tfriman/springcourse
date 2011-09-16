@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Implement methods with TODO.
+ * Register this bean using xml in movie-servlet.xml.
+ */
 public class RestClient {
 
 	private RestTemplate restTemplate;
@@ -25,11 +29,13 @@ public class RestClient {
 		return baseUrl + relativePath;
 	}
 	
+        // TODO: Get movie from MovieController's url app/movie/show/{movieId}
 	public Movie getMovie(Long movieId) {
 		// TODO: IMPLEMENT THIS WITH REST TEMPLATE
 		return null;
 	}
-
+        
+        // TODO: Get list of mavies from MovieController's url app/movies/list
 	public List<Movie> listMovies() {
 		// TODO: IMPLEMENT THIS WITH REST TEMPLATE
 		return null;
