@@ -57,11 +57,34 @@ resetmargins=true
 
 \begin{frame}[t, fragile]{Sisällysluettelo}
 \begin{itemize}
-\item Springin tausta
 \item Inversion of Control aka. Dependency Injection
+\item Springin tausta
 \item Springin hallinnoimat resurssit vs. new-operaattorilla luodut
 \end{itemize}
 \end{frame}
+
+\begin{frame}{Riippuvuuksien puskeminen}
+\begin{itemize}
+\item \url{http://www.martinfowler.com/articles/injection.html}
+% http://www.adam-bien.com/roller/abien/entry/what_is_the_relation_between
+\item pull vs push;
+\begin{itemize}
+\item Pull: FooFactory.getFoo() tai JNDI:n tai muun service locatorin//lookupin kautta
+\item Push: jokin olion ulkopuolelta puskee siihen
+ riippuvuudet. Tuota puskemista kutsutaan dependency injectioniksi
+\end{itemize}
+% IoC vs DI... IoC on yleisempi käsite kuin DI? IoC tarkoittaa
+% riippuvuuksien langoittamista, näin eri sovelluskerrokset saadaan
+% yhteen
+\item etuja: löyhä kytkentä \& korkea koheesio $ \Rightarrow $ parempi
+  ymmärrettävyys, uudelleenkäytettävyys ja modulaarisuus samoin kuin testattavuus
+% loose coupling suomeksi?
+\item JSR-299, JSR-330, javax.inject
+\item setter (kenttä) vs konstruktori vs rajapinta
+\item Guice, PicoContainer, kokemuksia?
+\end{itemize}
+\end{frame}
+
 
 \begin{frame}{Springin historia ja tausta 1/2}
 \begin{itemize}
@@ -84,26 +107,6 @@ resetmargins=true
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Riippuvuuksien puskeminen}
-\begin{itemize}
-\item \url{http://www.martinfowler.com/articles/injection.html}
-% http://www.adam-bien.com/roller/abien/entry/what_is_the_relation_between
-\item pull vs push;
-\begin{itemize}
-\item Pull: FooFactory.getFoo() tai JNDI:n   tai muun lookupin kautta
-\item Push: jokin olion ulkopuolelta puskee siihen
- riippuvuudet. Tuota puskemista kutsutaan dependency injectioniksi
-\end{itemize}
-% IoC vs DI... IoC on yleisempi käsite kuin DI? IoC tarkoittaa
-% riippuvuuksien langoittamista, näin eri sovelluskerrokset saadaan
-% yhteen
-\item etuja: löyhä kytkentä \& korkea koheesio $ \Rightarrow $ parempi
-  ymmärrettävyys, uudelleenkäytettävyys ja modulaarisuus samoin kuin testattavuus
-% loose coupling suomeksi?
-\item JSR-299, JSR-330, javax.inject
-\item setter vs konstruktori vs suora injektio kenttään
-\end{itemize}
-\end{frame}
 
 \begin{frame}{Spring laajennukset}
 Springissä on wrapperit ja apuluokat monille tunnetuille

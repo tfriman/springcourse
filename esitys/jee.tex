@@ -41,8 +41,11 @@ showstringspaces=false,
 resetmargins=true
 }
 
+\definecolor{links}{HTML}{AA1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
 \author{\AUTHOR}
-\newcommand{\TITLE}{Spring Framework JEE Support}
+\newcommand{\TITLE}{Spring Framework JEE  jne}
 \title[\TITLE]{\TITLE}
 
 \date{\DATE}
@@ -52,14 +55,26 @@ resetmargins=true
 \titlepage
 \end{frame}
 
-\begin{frame}{Sisällysluettelo}
+\begin{frame}[t, fragile]{Namespaceista 1/2}
+Namespacet helpottavat elämää, niiden käyttö ei tosin ole pakollista,
+vaan asiat voisi langoittaa itsekin XML:ssä.
 \begin{itemize}
-\item Templatet
-\item JNDI
-\item JMX
-\item EJB?
-\item Security
-\item Remoting
+\item context
+\item jee
+\item p, xmlns:p="http://www.springframework.org/schema/p"\\
+\begin{lstlisting}
+<bean id="foo" class="example.Bean" p:message="Message passing using p-namespace">
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Namespaceista 2/2}
+\begin{itemize}
+\item aop
+\item util
+\item jms
+\item omat laajennokset, META-INF/spring.handler, spring.schema\\
+überjar-pakkausongelmat, Maven shade-plugin etc.
 \end{itemize}
 \end{frame}
 
@@ -69,60 +84,83 @@ Springissä on monille perusasioille Template, joka hoitaa likaiset työt ja hö
 Tässä on listattuna useimmiten käytetyt templatet:
 \begin{itemize}
 \item Tietokanta
-\item Jms
-\item Mail
 \item Rest
+\item Jms
+\item Sähköposti
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Tietokanta}
-JdbcTemplate / JdbcOperations,  JpaTemplate, HibernateTemplate
+\begin{frame}{JMS}
 \begin{itemize}
-\item JdbcOperations on hyvin yksinkertainen ORM, se toimii myös käytännön raakana SQL-yhteytenä.
-\item Java5-versio on jostain syystä paketissa simple
-\item JpaTemplate helpottaa JPA:n kanssa toimimista, HibernateTemplate
-  vastaavasti... näitä ei tosin kannata käyttää enää JEE 5+ kanssa.
+\item Piilottaa todella hyvin JMS'n monimutkaisuuden
+\item \href[colorlinks=true]{http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/jms/core/JmsTemplate.html}{JmsTemplate}
+  lähettämiseen ja synkroniseen vastaanottoon
+\item DefaultMessageListenerContainer hoitaa MDB-osuuden (MD Pojo) eli
+  asynkronisen vastaanoton. Katso
+  \href[colorlinks=true]{http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/jms/listener/AbstractMessageListenerContainer.html}{Javadocista} käyttöohjeita.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{JmsTemplate}
+\begin{frame}{Sähköposti}
 \begin{itemize}
-\item MessageListener
+\item Helppo SMTP-lähetys esimerkiksi käyttäen JNDI:n läpi MailSessionia.
+\item tukee MIMEä 
+\item\href[colorlinks=true]{http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/mail/javamail/JavaMailSender.html}{JavaMailSender}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{MailTemplate}
+\begin{frame}[t, fragile]{JNDI}
 \begin{itemize}
-\item 
+\item JEE-namespacessa
+\item helppokäyttöinen
+\begin{lstlisting}
+<jee:jndi-lookup id="myEmf"
+            jndi-name="persistence/myPersistenceUnit"/>
+
+<jee:jndi-lookup id="simple"
+             jndi-name="jdbc/MyDataSource"
+             cache="true"
+             resource-ref="true"
+             lookup-on-startup="false"
+             expected-type="com.myapp.DefaultFoo"
+             proxy-interface="com.myapp.Foo"/>
+\end{lstlisting}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{JNDI}
-Namespace
+\begin{frame}[t, fragile]{JMX}
 \begin{itemize}
-\item 
+\item Export
+\begin{lstlisting}
+<context:mbean-export server="myMBeanServer" default-domain="myDomain"/>
+\end{lstlisting}
+\item Tuki serverin käynnistämiselle ja ``automaattiselle''
+  etsimiselle
+\begin{lstlisting}
+<bean id="jmx.server"  class=
+"org.springframework.jmx.support.MBeanServerFactoryBean"
+   p:locateExistingServerIfPossible="true"/>
+\end{lstlisting}
+
 \end{itemize}
 \end{frame}
 
-\begin{frame}{JMX}
-Namespace
+\begin{frame}[t, fragile]{EJB}
 \begin{itemize}
-\item 
+\item Tämäkin on tuettu
+\item jee-namespacessa stateless session beanien hakemiseen tagit
+\begin{lstlisting}
+<jee:remote-slsb id="complexRemoteEjb"
+    jndi-name="ejb/MyRemoteBean"
+    business-interface="com.foo.service.RentalService"
+    cache-home="true"
+    lookup-home-on-startup="true"
+    resource-ref="true"
+    home-interface="com.foo.service.RentalService"
+    refresh-home-on-connect-failure="true"/>
+\end{lstlisting}
 \end{itemize}
 \end{frame}
-
-\begin{frame}{EJB}
-\begin{itemize}
-\item 
-\end{itemize}
-\end{frame}
-
-
-% \begin{frame}{}
-% \begin{itemize}
-% \item 
-% \end{itemize}
-% \end{frame}
 
 \begin{frame}{Spring Security}
 \begin{itemize}
@@ -141,13 +179,10 @@ Namespace
 \item Hessian (bin), Burlap (asc) (caucho.com)
 \item HTTP (Java serialization, Spring only)
 \item WS
-\item REST ?
 \end{itemize}
 \item Itse käyttäisin useimmiten SOAP-WS:ää ja Apache CXF:ää näiden
   sijasta.
-
 \end{itemize}
 \end{frame}
-
 
 \end{document}
